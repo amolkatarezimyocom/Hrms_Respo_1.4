@@ -1,0 +1,29 @@
+package com.HRMS.Testlayer;
+
+import org.openqa.selenium.WebDriver;
+
+import com.HRMS.Pagelayer.Dashboard;
+import com.HRMS.Testbase.Main_Module;
+import com.HRMS.Testbase.Url_screenshot_Quit;
+
+public class Dashboard_Test extends Url_screenshot_Quit{
+
+	private WebDriver driver;
+	
+	public Dashboard_Test(WebDriver driver) {
+		this.driver=driver;
+	}
+	private Main_Module apps_module_click;
+	Dashboard Apply_new_btn_click;
+	Url_screenshot_Quit url ;
+
+	public void Dashboard_Applynew_Btn() throws InterruptedException {
+		
+		url.url();
+		apps_module_click.apps_module();
+    	Apply_new_btn_click.Apply_new_Btn_Click();
+		
+	}
+	
+	
+}
