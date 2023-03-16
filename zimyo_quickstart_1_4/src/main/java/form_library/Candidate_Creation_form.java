@@ -3,17 +3,16 @@ package form_library;
 import java.time.Duration;
 import java.util.List;
 
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
-import com.HRMS.Testbase.Url_screenshot_Quit;
+
 
 public class Candidate_Creation_form {
 	
@@ -61,9 +60,9 @@ public class Candidate_Creation_form {
 	private WebElement salary_structure_sendkeys_object;
 	
 	@FindBy(xpath="//input[@id='AGE']")
-	private WebElement age_sendkeys_object;
+	private List<WebElement> age_sendkeys_object;
 	
-	@FindBy(xpath="//div[contains(text(),\"Candidate has been added successfully\")]")
+	@FindBy(xpath="(//div[contains(text(),\"Candidate has been added successfully\")]//preceding-sibling::div)[2]")
 	private WebElement Candidate_create_sucess_mess_object;
 	
 	
@@ -79,21 +78,21 @@ public class Candidate_Creation_form {
 	}
 	
 	public void reporting_sendkeys_enter(String rm) throws InterruptedException {
-		reporting_manager_sendkey_object.sendKeys(rm);
-	Thread.sleep(3000);
-	reporting_manager_sendkey_object.sendKeys(Keys.ARROW_DOWN,Keys.ENTER);
+	reporting_manager_sendkey_object.sendKeys(rm +Keys.ARROW_DOWN +Keys.ENTER);
 	}
 	
-	public void candidate_department_sendkeys(String department) {
+	public void candidate_department_sendkeys(String department) throws InterruptedException {
 		candidate_dep_sendkeys_enter_object.sendKeys(department + Keys.ARROW_DOWN + Keys.ENTER);
+	Thread.sleep(1000);
 	}
 
 	public void candidate_location_sendkeys(String location) {
 		candidate_location_sendkeys_enter_object.sendKeys(location + Keys.ARROW_DOWN + Keys.ENTER);
 	}
 	
-	public void entity_sendkeys_click(String entity) {
-		entity_sendkeys_enter_object.sendKeys(entity + Keys.ARROW_DOWN + Keys.ENTER);
+	public void entity_sendkeys_click(String entity) throws InterruptedException {
+			entity_sendkeys_enter_object.sendKeys(entity + Keys.ARROW_DOWN + Keys.ENTER);
+	Thread.sleep(1000);
 	}
 	
 	public void joining_sendkeys_click(String joining_date) {
@@ -116,23 +115,24 @@ public class Candidate_Creation_form {
 		salary_structure_sendkeys_object.sendKeys(sa_st + Keys.ARROW_DOWN +Keys.ENTER);
 	}
 
-	public void age_sendkeys(String age) {
-		age_sendkeys_object.sendKeys(age);	
+	public void  age_sendkeys(String age) {
+		boolean isElementExists = age_sendkeys_object.size()>0;
+
+		if(isElementExists = true ) {
+			System.out.println("age element   exists");
+		  age_sendkeys_object.get(0).sendKeys(age);
+		}
+		else {
+			System.out.println("age element   not exists");
+
+		}
+
 	}
 	
-//	public void candidate_create_suceess_mess_gettext() throws InterruptedException {
-//	    WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(30));
-//	  WebElement re=  wait.until(ExpectedConditions.exception(Candidate_create_sucess_mess_object));
-//		System.out.println("a");
-//		String candidate_Mess=Candidate_create_sucess_mess_object.getText();
-//	    System.out.println("b");
-//	    // element is now stale and can be safely accessed or manipulated
-//
-//		System.out.println(candidate_Mess.replaceAll("\\s", ""));
-//		
-////	    Assert.assertEquals(candidate_Mess, "Success Candidate has been added successfully");
-//	    Assert.assertEquals("Success", candidate_Mess);
-//	}
+
+
+	
+
 
 	
 	

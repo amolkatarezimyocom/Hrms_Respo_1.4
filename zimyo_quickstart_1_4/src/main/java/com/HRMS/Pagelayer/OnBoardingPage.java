@@ -1,9 +1,11 @@
 package com.HRMS.Pagelayer;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,8 +16,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 import com.HRMS.Testbase.Url_screenshot_Quit;
+import com.HRMS.Utilities.AssertObject;
+import com.HRMS.Utilities.ExcelFileHandler;
 
 import form_library.Candidate_Creation_form;
 
@@ -25,6 +31,7 @@ public class OnBoardingPage {
 																																																																																																																																																																																																																																																																
 	private WebDriver driver;
 	public Scanner myobj = new Scanner(System.in);
+	private ExcelFileHandler fh;
 	
 	public OnBoardingPage(WebDriver driver){
 		this.driver=driver;
@@ -55,7 +62,7 @@ public class OnBoardingPage {
 	private WebElement Add_manually_click_object;
 
 	@FindBy(xpath="//span[contains(text(),'Submit')]")
-	private WebElement submit_btn_object;
+	private List<WebElement> submit_btn_object;
 	
 	private static final String intitate_button_click="(//div[contains(@data-rbd-draggable-id,%s)]//ancestor::button)[2]";
 
@@ -111,51 +118,7 @@ public class OnBoardingPage {
 	
 	private static final String cidrequestasset="(//div[contains(@data-rbd-draggable-id,\"Request Assets\") and contains(@data-rbd-draggable-id,%s)]//child::button)[1]";
 	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Welcome Mail\")]//child::button)[1]")
-//	private WebElement welcome_mail_threedot_click_object;
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Management Approval\")]//child::button)[1]")
-//	private WebElement management_approval_threedot_click_object; 
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Candidate Joinee Form\")]//child::button)[1]")
-//	private WebElement candidate_joinee_form_threedot_click_object; 
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Verify Candidate Details\")]//child::button)[1]")
-//	private WebElement Verify_candidate_detail_threedot_click_object; 
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Aadhaar Verification\")]//child::button)[1]")
-//	private WebElement adhaar_verification_threedot_click_object; 
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"CTC Approval\")]//child::button)[1]")
-//	private WebElement ctc_approval_threedot_click_object; 
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Add Candidate CTC\")]//child::button)[1]")
-//	private WebElement Add_candidate_CTC_threedot_click_object;
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Offer letter\")]//child::button)[1]")
-//	private WebElement Offer_letter_threedot_click_object;
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"LOI\")]//child::button)[1]")
-//	private WebElement LOI_threedot_click_object;
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Convert to Employee\")]//child::button)[1]")
-//	private WebElement convert_to_Employee_threedot_click_object;
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Employee Credentials\")]//child::button)[1]")
-//	private WebElement Employee_Credential_threedot_click_object;
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Transfer Documents\")]//child::button)[1]")
-//	private WebElement Transfer_Document_threedot_click_object;
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Appointment Letter\")]//child::button)[1]")
-//	private WebElement Appointment_Letter_threedot_click_object;
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Background Verification\")]//child::button)[1]")
-//	private WebElement Background_verification_threedot_click_object;
-//	
-//	@FindBy(xpath="(//div[contains(@data-rbd-draggable-id,\"Request Assets\")]//child::button)[1]")
-//	private WebElement Request_Asset_threedot_click_object;
-		
+	
 	
 	
 ////*************** start click of  bucket list**************//////////////////
@@ -217,7 +180,7 @@ public class OnBoardingPage {
 //	********************verify candidate detail**************************
 	
 	@FindBy(xpath="//span[contains(text(),'Proceed')]")
-	private WebElement Procces_btn_verify_candidate_click_object;
+	private List<WebElement> Procces_btn_verify_candidate_click_object;
 	
 	@FindBy(xpath="//span[contains(text(),'Previous')]")
 	private WebElement previous_btn_verify_candidate_click_object;
@@ -264,13 +227,16 @@ public class OnBoardingPage {
 	@FindBy(xpath="//p[contains(text(),'Application acknowledgment')]")
 	private WebElement Application_Acknowledge_click_object;
 	
-//	joinee ctc
+//*****************************joinee ctc***************************
+	
+	@FindBy(xpath="//input[contains(@name,\"CTC\")]")
+	private WebElement candidate_ctc;
 	
 	@FindBy(xpath="//input[contains(@name,\"sal_structure\")]")
-	private WebElement joinee_ctc_salary_structure_object;
+	private List<WebElement> joinee_ctc_salary_structure_object;
 	
 	@FindBy(xpath="//input[contains(@name,\"incentive_plans\")]")
-	private WebElement joinee_ctc_incentive_object;
+	private List<WebElement> joinee_ctc_incentive_object;
 	
 	@FindBy(xpath="//input[contains(@name,\"ot_plans\")]")
 	private WebElement joinee_ctc_overtime_plan;
@@ -293,18 +259,49 @@ public class OnBoardingPage {
 	@FindBy(xpath="//span[contains(text(),\"Save\")]")
 	private WebElement save_btn_click;
 	
+//-----------------------------  sucess message-----------------
+	
+	@FindBy(xpath="//div[contains(text(),\"Welcome mail sent successfully\")][1]")
+	private WebElement Welcome_mail_sent_successfully;
+
+	@FindBy(xpath="//div[contains(text(),\"Management approval request has been sent successfully.\")]")
+    private WebElement Management_approval_request_has_been_sent_successfully;	
+	
+	@FindBy(xpath="//div[contains(text(),\"Joinee form sent successfully.\")]")
+    private WebElement Joinee_form_sent_successfully ;
+	
+	@FindBy(xpath="//div[contains(text(),\"Candidate status updated successfully.\")]")
+    private WebElement Candidate_status_updated_successfully ;
+	
+	@FindBy(xpath="//div[contains(text(),\"Offer letter released\")]")
+    private WebElement Offer_letter_released;
+	
+	@FindBy(xpath="//div[contains(text(),\"Acknowledge letter released\")]")
+    private WebElement Acknowledge_letter_released;
+	
+	@FindBy(xpath="//div[contains(text(),\"Login credentials sent successfully\")]")
+    private WebElement Login_credentials_sent_successfully ;
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 //---------------------------------------------------------------------
 //-----------------------------	Action Repository----------------------------------------
 	
-	public void onboarding_overview_click() throws IOException, InterruptedException  {
-		Url_screenshot_Quit screenshot = new Url_screenshot_Quit();
-		overview_object.click();
-		screenshot.screenshot("top");
-		Thread.sleep(9000);
-		overview_object.sendKeys(Keys.PAGE_DOWN);
-		screenshot.screenshot("bottom");
-		
-	}
+//	public void onboarding_overview_click() throws IOException, InterruptedException  {
+//		Url_screenshot_Quit screenshot = new Url_screenshot_Quit();
+////		screenshot.screenshot("top");
+//
+////		JavascriptExecutor js = (JavascriptExecutor) driver;
+//		
+//	}
 	
 	public void candidate_workflow_DD_button_click() {
 		Workflow_dropdown_arrow_btn_click_object.click();
@@ -324,10 +321,19 @@ public class OnBoardingPage {
 	
 	public void Add_manually_DD_click() {
 		Add_manually_click_object.click();
+		String Submit=submit_btn_object.get(0).getText();
+		System.out.println("Candidate Joinee form Display");
+		Assert.assertEquals(Submit, "Submit");
 	}
 	
-	public void submit_btn_click() {
-		submit_btn_object.click();
+	public void submit_btn_click() throws InterruptedException {
+		if(submit_btn_object.size()>0) {
+			 submit_btn_object.get(0).click();
+		     String Create_New=create_new_click_object.getText();
+			 System.out.println("Candidate create Sucessfully");
+			 Assert.assertEquals(Create_New, "Create New");
+			 submit_btn_click();
+        	}
 	}
 	
     public void Intitate_btn_mutiple_time_click(String cid_id) {
@@ -366,118 +372,111 @@ public class OnBoardingPage {
     
 ////*************** start click on Three dot on bucket list**************//////////////////
 
+   
     
 	public void welcome_mail_Three_Dot_send_candidate(String cid_id) {
-		  
 		String fullXpath = String.format(cidwelcome, cid_id);
 	    driver.findElement(By.xpath(fullXpath)).click();
-//			welcome_mail_threedot_click_object.click();
 	}
 	
 	public void management_Bucket_Three_dot_send_candidate(String cid_id) {
 		  String fullXpath = String.format(cidmanagement, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		management_approval_threedot_click_object.click();
 	}
 	
 	public void candidate_joinee_Three_dot_send_candidate(String cid_id) {
 		  String fullXpath = String.format(cidcandidatejoineeform, cid_id);
-	      driver.findElement(By.xpath(fullXpath)).click();
-//		candidate_joinee_form_threedot_click_object.click();
+	      driver.findElement(By.xpath(fullXpath)).click();  
 	}
 	
 	public void verify_candidate_Three_dot_click(String cid_id) {
 		  String fullXpath = String.format(cidverifycandidatedetail, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		Verify_candidate_detail_threedot_click_object.click();
 	}
 	
 	public void Adhaar_verification_Three_Dot_click(String cid_id) {
 		  String fullXpath = String.format(cidaadharverify, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		adhaar_verification_threedot_click_object.click();
 	}
 	
 	public void Add_candidate_CTC_Three_Dot_click(String cid_id){
 		  String fullXpath = String.format(cidaddcandidatectc, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		Add_candidate_CTC_threedot_click_object.click();
 	}
 	
 	public void Ctc_approval_Three_Dot_send_candidate(String cid_id) {
 		  String fullXpath = String.format(cidctcapproval, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		ctc_approval_threedot_click_object.click();
 	}
 	
 	public void Offer_letter_Three_Dot_send_candidate(String cid_id) {
 		  String fullXpath = String.format(cidofferletter, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		Offer_letter_threedot_click_object.click();
 	}
 	
 	public void LOI_Three_Dot_click_send_canditate(String cid_id) {
 		  String fullXpath = String.format(cidloi, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		LOI_threedot_click_object.click();
 	}
 	
 	public void Convert_To_Employee_Three_Dot_click(String cid_id) {
 		  String fullXpath = String.format(cidconvertemployees, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		convert_to_Employee_threedot_click_object.click();
 	}
 	
 	public void Employee_Credential_Three_Dot_click(String cid_id) {
 		  String fullXpath = String.format(cidemployeecredential, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		Employee_Credential_threedot_click_object.click();
 	}
 	
 	public void Transfer_Document_Three_Dot_click(String cid_id) {
 		  String fullXpath = String.format(cidtransferdocument, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		Transfer_Document_threedot_click_object.click();
 	}
 	
 	public void Appointment_letter_Three_Dot_click(String cid_id) {
 		  String fullXpath = String.format(cidappointmentletter, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		Appointment_Letter_threedot_click_object.click();
 	}
 	
 	public void Background_verification_Three_Dot_click(String cid_id) {
 		  String fullXpath = String.format(cidbackgroundverification, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		Background_verification_threedot_click_object.click();
 	}
 	
 	public void Request_Asset_Three_Dot_click(String cid_id) {
 		  String fullXpath = String.format(cidrequestasset, cid_id);
 	      driver.findElement(By.xpath(fullXpath)).click();
-//		Request_Asset_threedot_click_object.click();
 	}
 	
 	
 	
 ////*************** start click of  bucket list**************//////////////////
+
 	
-	public void welcome_email_Bucket_send_candidate() throws InterruptedException {
+    public void welcome_email_Bucket_send_candidate() throws InterruptedException {
 		welcome_candidate_click_object.click();
-		driver.navigate().refresh();
-		Thread.sleep(3000);
-	}
+	    String result=Welcome_mail_sent_successfully.getText();
+	    String actual = StringUtils.normalizeSpace(result);
+		AssertObject ao=new AssertObject();
+		ao.assertobject(actual,  "Success Welcome mail sent successfully");
+        }
 
 	public void management_Bucket_send_candidate() throws InterruptedException {
 		management_approval_click_object.click();
-//		driver.navigate().refresh();
-		Thread.sleep(3000);
+	    String result=Management_approval_request_has_been_sent_successfully.getText();
+	    String actual = StringUtils.normalizeSpace(result);
+		AssertObject ao=new AssertObject();
+		ao.assertobject(actual,  "Success Management approval request has been sent successfully.");          
 	}
 	
 	public void Candidate_joinee_send_candidate() throws InterruptedException {
 		candidate_joinee_click_object.click();
-		driver.navigate().refresh();
-		Thread.sleep(4000);
+	    String result=Joinee_form_sent_successfully.getText();
+	    String actual = StringUtils.normalizeSpace(result);
+		AssertObject ao=new AssertObject();
+		ao.assertobject(actual,  "Success Joinee form sent successfully.");          
+
 	}
 	
 	public void Verify_candidate_send_candidate() {
@@ -498,10 +497,18 @@ public class OnBoardingPage {
 	
 	public void Offer_letter_send_candidate(){
 		Offer_letter_click_object.click();
+	    String result=Offer_letter_released.getText();
+	    String actual = StringUtils.normalizeSpace(result);
+		AssertObject ao=new AssertObject();
+		ao.assertobject(actual,  "Success Offer letter released");          
 	}
 	
 	public void Loi_send_candidate() {
 		LOI_click_object.click();
+	    String result=Acknowledge_letter_released.getText();
+	    String actual = StringUtils.normalizeSpace(result);
+		AssertObject ao=new AssertObject();
+		ao.assertobject(actual,  "Success Acknowledge letter released");          
 	}
 	
 	public void convert_to_Employees_send_candidate() {
@@ -510,6 +517,11 @@ public class OnBoardingPage {
 	
 	public void Employee_credential_send_candidate() {
 		Employee_credential_click_object.click();
+	    String result=Login_credentials_sent_successfully.getText();
+	    String actual = StringUtils.normalizeSpace(result);
+		AssertObject ao=new AssertObject();
+		ao.assertobject(actual,  "Success Login credentials sent successfully");          
+
 	}
 	
 	
@@ -523,7 +535,7 @@ public class OnBoardingPage {
 		action.moveToElement(candidate_profile_Document_object).click().perform();
 		Thread.sleep(3000);	 
 		driver.navigate().back();
-		driver.navigate().refresh();
+//		driver.navigate().refresh();
 }
 	
 	
@@ -542,69 +554,52 @@ public class OnBoardingPage {
 	
 	public void verify_candidate_detail() throws InterruptedException {
     	int j;
-    	int process_btn_click = 0;
-    	try {
-    	for( j=1;j<=5;j++) {
-    		Thread.sleep(3000);
-    		process_btn_click =1;
-    		verify_candidate_detail_btn_detail(process_btn_click); 
-    	}
-    	
+        	if(Procces_btn_verify_candidate_click_object.size() > 0) {
+        		Thread.sleep(3000);
+        		Procces_btn_verify_candidate_click_object.get(0).click(); 	    
+        		verify_candidate_detail();
+        	}
+
+        	else {
     	System.out.println("Verify candidate detail approve ---> 1");
     	System.out.println("Verify candidate detail reclarification ---> 2");
     	System.out.println("Enter value of proceess ??");
     	String process=myobj.next();
     	
     	if(process.contains("1")) {
-        	
         	for(j=1;j<=1;j++) {
-        		process_btn_click = 3;
+        	int	process_btn_click = 1;
         		verify_candidate_detail_btn_detail(process_btn_click); 
+        	    String result=Candidate_status_updated_successfully.getText();
+        	    String actual = StringUtils.normalizeSpace(result);
+        		AssertObject ao=new AssertObject();
+        		ao.assertobject(actual,  "Success Candidate status updated successfully.");          
         	}
         	}
-    	if(process.contains("2")) {
-        	
-        	for(j=1;j<=1;j++) {
-        		process_btn_click = 4;
-        		verify_candidate_detail_btn_detail(process_btn_click); 
+    	else if(process.contains("2")) {
+          	for(j=1;j<=1;j++) {
+        	int	process_btn_click = 2;
+       		verify_candidate_detail_btn_detail(process_btn_click); 
         	}
         	}
-    	
-    	}
-    	catch(NoSuchElementException | ElementNotInteractableException e) {
-    		verify_candidate_detail();
     	}
 	}
   
 
     public  void verify_candidate_detail_btn_detail(int process_btn_click) throws InterruptedException {
-
-    	
     	switch(process_btn_click) {
-		case 1 : 
-			Thread.sleep(3000);
-			Procces_btn_verify_candidate_click_object.click();
-			break;
-			
-		case 2:
-			Thread.sleep(3000);
-			previous_btn_verify_candidate_click_object.click();
-		    break;
-		    
-		case 3 :
+    	case 1 :
 			Thread.sleep(3000);
 			approve_btn_verify_candidate_click_object.click();
 			break;
 			
-		case 4:
+		case 2:
 			Thread.sleep(3000);
 			reclarification_btn_verify_candidate_click_object.click();
 		    break;
-		    
-		default:
+		   default:
 		}
-   	
-    	}
+   	   	}
     
 //  **********************************offer letter**********************
     
@@ -682,10 +677,13 @@ public class OnBoardingPage {
    		System.out.println("Enter value -->  ");
    		Loi_page_action_switch(Loi_action);
    	
+//			List<WebElement> dropdownOptions = driver.findElement(By.xpath("//li[contains(@class,\" css-1xhn06-MuiListItem-root\")]");
+
    		String Loi=myobj.next();
    		if(Loi.equals("accept")){
-//   			List<WebElement> li= driver.findElement(By.xpath("//li[contains(@class,\" css-1xhn06-MuiListItem-root\")]");
+   			List<WebElement> li= driver.findElements(By.xpath("//li[contains(@class,\" css-1xhn06-MuiListItem-root\")]"));
    			
+   			Iterator<WebElement> list=li.iterator();
     			Loi_action=1;
    	   		Loi_page_action_switch(Loi_action);
 
@@ -708,22 +706,33 @@ public class OnBoardingPage {
    			cancel_btn_click_object.click();
    		}break; 
    		default:
-   		   		   		   		}
-	
-   	}
-   	
+   		   		   		}
+	   	}
    	
    	
 //   	joinee ctc
    	
-   	public void joinee_ctc() throws InterruptedException {
-   		joinee_ctc_salary_structure_object.sendKeys("New Structue");
-   		joinee_ctc_incentive_object.sendKeys("incentives");
-   		joinee_ctc_overtime_plan.sendKeys("Day wise");
-   		joinee_ctc_flexible_plan.sendKeys("test");
-   		joinee_ctc_bonus_plan.sendKeys("quarterly bonus");
-   		joinee_ctc_date.sendKeys("Jan-2023");
-   		joinee_ctc_esc.sendKeys("March-2023");
+   	public void joinee_ctc() throws InterruptedException, IOException {
+   		fh = new ExcelFileHandler();
+   		candidate_ctc.sendKeys(fh.readData(1, 1, 3));
+	   
+   		boolean ctc= joinee_ctc_salary_structure_object.size()> 0;
+	    if(ctc=true) {
+	    	System.out.println("g");
+	    	joinee_ctc_salary_structure_object.get(0).sendKeys(fh.readData(1, 2, 3));
+	    	}
+	    
+	    boolean incentive = joinee_ctc_incentive_object.size()>0;
+   		if(incentive = true) 
+   		{System.out.println("hh");
+	    joinee_ctc_incentive_object.get(0).sendKeys(fh.readData(1, 3, 3));
+	    joinee_ctc_overtime_plan.sendKeys(fh.readData(1, 4, 3));
+   	    joinee_ctc_flexible_plan.sendKeys(fh.readData(1, 5, 3));
+   		joinee_ctc_bonus_plan.sendKeys(fh.readData(1, 6, 3));
+   		joinee_ctc_esc.sendKeys(fh.readData(1, 7, 3));
+   		}
+   		joinee_ctc_date.sendKeys(fh.readData(1, 8, 3));
+   		
    		Thread.sleep(1000);
    		compute_btn_click.click();
    		Thread.sleep(1000);
@@ -734,6 +743,11 @@ public class OnBoardingPage {
    		System.out.println(i);
    		}
    	}
+   	
+   	
+
+   	
+
    	
 }
 

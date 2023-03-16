@@ -1,7 +1,12 @@
 package form_library_testlayer;
 
+import java.io.IOException;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
+
+import com.HRMS.Utilities.ExcelFileHandler;
+
 import form_library.Candidate_Creation_form;
 
 public class Candidate_Creation_Testcase {
@@ -14,22 +19,24 @@ public class Candidate_Creation_Testcase {
 		PageFactory.initElements(driver, this);
 	}
 
-	public void Candidate_creation()  throws InterruptedException {
+	public void Candidate_creation()  throws InterruptedException, IOException {
 		form = new Candidate_Creation_form(driver);
-	
+		ExcelFileHandler efh= new ExcelFileHandler();
 		
-		form.candidate_name_sendkeys(" world cup ");
-		form.candidate_email_sendkey("TOLacup@yopmail.com");
-		form.reporting_sendkeys_enter("Pawan Dalal Original");
-		form.candidate_department_sendkeys("hr");
-		form.candidate_location_sendkeys("Gurgaon");
-		form.entity_sendkeys_click("amol");
-		form.joining_sendkeys_click("2023/02/10");
-		form.ctc_sendkeys_click("5627829");
-		form.designation_sendkeys_click("president");
-		form.workflow_sendkeys_click("Default wor");
-		form.salary_structure_click("TEST");
-		form.age_sendkeys("20");
+		
+		
+		form.candidate_name_sendkeys(efh.readData(1, 1, 1));
+		form.candidate_email_sendkey(efh.readData(1, 2, 1));
+		form.reporting_sendkeys_enter(efh.readData(1, 3, 1));
+		form.candidate_department_sendkeys(efh.readData(1, 4, 1));
+		form.candidate_location_sendkeys(efh.readData(1, 5, 1));
+		form.entity_sendkeys_click(efh.readData(1, 6, 1));
+		form.joining_sendkeys_click(efh.readData(1, 7, 1));
+		form.ctc_sendkeys_click(efh.readData(1, 8, 1));
+		form.designation_sendkeys_click(efh.readData(1, 9, 1));
+		form.workflow_sendkeys_click(efh.readData(1, 10, 1));
+		form.salary_structure_click(efh.readData(1, 11, 1));
+		form.age_sendkeys(efh.readData(1, 12, 1));
 		
 	}
 	

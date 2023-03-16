@@ -4,26 +4,36 @@ import java.io.IOException;
 
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import com.HRMS.Pagelayer.OnBoardingPage;
 import com.HRMS.Testbase.Main_Module;
 import com.HRMS.Testbase.Sub_module;
 import com.HRMS.Testbase.Url_screenshot_Quit;
+import com.HRMS.Utilities.ExcelFileHandler;
 
 import form_library.Candidate_Creation_form;
 import form_library_testlayer.Candidate_Creation_Testcase;
 
 import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public  class Onboarding_Test extends Url_screenshot_Quit  {                                                                                                                                                                     
+
+
+
+
 	Scanner myObj ; 
 	public OnBoardingPage onboarding;
 	public Candidate_Creation_Testcase Candidate_Detail_fill;
     public int i;
-
-	@Test
+    private ExcelFileHandler excelFileHandler;
+    
+	@Test(dataProvider="onboardingData",dataProviderClass=ExcelFileHandler.class)
 	public void Onboarding() throws InterruptedException, IOException  { 
 	   try {
 		Main_Module Organisation = new Main_Module(driver);
@@ -39,41 +49,51 @@ public  class Onboarding_Test extends Url_screenshot_Quit  {
 		onboarding = new OnBoardingPage(driver);
 //		onboarding.onboarding_overview_click();
 		onboarding.onboarding_candidate_click();
+		
 		Thread.sleep(3000);
 		onboarding.candidate_workflow_DD_button_click();
 		onboarding.candidate_workflow_click();
-		Thread.sleep(3000);
-    	onboarding.create_new_click();
-     	onboarding.Add_manually_DD_click();
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													
-	    Candidate_Detail_fill = new Candidate_Creation_Testcase(driver);
-		Candidate_Detail_fill.Candidate_creation();
-
-		onboarding.submit_btn_click();																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									
 		
-		Candidate_Creation_form form = new Candidate_Creation_form(driver);
-//		form.candidate_create_suceess_mess_gettext();
-         
+		Thread.sleep(3000);
+		
+//	   	onboarding.create_new_click();
+//     	onboarding.Add_manually_DD_click();
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+//	    Candidate_Detail_fill = new Candidate_Creation_Testcase(driver);
+//		Candidate_Detail_fill.Candidate_creation();
+//
+//		onboarding.submit_btn_click();	
+		
+		excelFileHandler = new ExcelFileHandler(); 
+//		excelData = excelFileHandler.onboarding();
+//		for (int i = 0; i < excelData.length; i++) {
+//			System.out.println(excelData[i]);
+//		}
+		
 
 		System.out.println("Enter CID?????"+"\"CID\":");
-		myObj = new Scanner(System.in);
-		String cid_id = myObj.next();
-		askInput(cid_id); 
-		System.out.println("gg");
-		myObj.close();
+		String cid_id= excelFileHandler.readData(1, 1, 3);
+		
+		sendToStep(1,cid_id);
+//		askInput(cid_id); 
+
+//		myObj.close();
+		
+		
+		
 	   }
-	   
 	   catch( Exception e) {
 		   System.out.println(e.getMessage());
+		   int a = 0;
+		   int b=2;
+		   System.out.println(b/a);
 		  	   }
 	}
 
 
-
-private void askInput(String cid_id) throws InterruptedException {
+@DataProvider(dataProvider="onboardingData",dataProviderClass=ExcelFileHandler.class)
+public void askInput(String cid_id) throws InterruptedException, IOException {
 	try {
-//		Thread.sleep(3000);
-//		driver.navigate().refresh();
 		System.out.println("Send Welcome  Mail           : Press 1");
 		System.out.println("Send Management Approval     : Press 2");
 		System.out.println("Send Candidate Joinee Form   : Press 3");
@@ -90,13 +110,17 @@ private void askInput(String cid_id) throws InterruptedException {
 //		System.out.println("Send Background Verification : Press 2");
 //		System.out.println("Send Request Assets          : Press 2");
 
-		System.out.println("Please Enter Number :  ");
-		myObj = new Scanner(System.in);
-		int step = myObj.nextInt();
+//		System.out.println("Please Enter Number :  ");
+//		myObj = new Scanner(System.in);
+//		int step = myObj.nextInt();
 		
-		sendToStep(step, cid_id);
+		String[] step=excelFileHandler.onboarding();
+		for (int i = 0; i < step.length; i++) {
+			System.out.println("Step: "+step[i]);
+		}
+//		sendToStep(step, cid_id);
 		System.out.println("askinput end");
-		myObj.close();
+//		myObj.close();
 
 	}
 	catch(InputMismatchException | ElementClickInterceptedException | NoSuchElementException e) {
@@ -107,7 +131,7 @@ private void askInput(String cid_id) throws InterruptedException {
 
 
 
-private void sendToStep(int step,String cid_id) throws InterruptedException {
+private void sendToStep(int step,String cid_id) throws InterruptedException, IOException {
 
 	
 	switch(step) {
@@ -117,6 +141,7 @@ private void sendToStep(int step,String cid_id) throws InterruptedException {
 //		onboarding.get_candidate_email_address();
 		onboarding.welcome_mail_Three_Dot_send_candidate(cid_id);
 		onboarding.welcome_email_Bucket_send_candidate();
+		
 	}
 	break;
 	case 2:{
@@ -220,7 +245,7 @@ private void sendToStep(int step,String cid_id) throws InterruptedException {
 	System.out.println("Next Bucket ---> true");
 	System.out.println("Complete Stage---> false");
 	System.out.println("Rerun Again ---> ????? ");
-	String Rerun_again = myObj.next();
+    String Rerun_again = myObj.next();
 	if(Rerun_again.contains("true")) {
 				askInput(cid_id);
        }

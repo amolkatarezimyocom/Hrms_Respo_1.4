@@ -5,7 +5,7 @@
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="zimyo_quickstart_1_4"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
     <listAttribute key="org.testng.eclipse.SUITE_TEST_LIST">
-        <listEntry value="C:\Users\zimyo\eclipse-workspace\eclipse amol new\zimyo_quickstart_1_4\testngon.xml"/>
+        <listEntry value="C:\Users\zimyo\Pictures\Screenshots\Hrms_Respo_1.4\zimyo_quickstart_1_4\testngon.xml"/>
     </listAttribute>
     <intAttribute key="org.testng.eclipse.TYPE" value="3"/>
 </launchConfiguration>
